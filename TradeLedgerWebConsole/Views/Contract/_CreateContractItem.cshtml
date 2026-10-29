@@ -1,0 +1,84 @@
+﻿@model TradeLedgerWebConsole.Domain.ContractItem
+@{
+    var index = ViewData["ItemIndex"] as int? ?? 0;
+    var rowIndex = index + 1; // display as 1-based
+}
+
+<style>
+    .item-entry {
+        position: relative;
+        margin-bottom: 20px;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .number-block {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 20px;
+        width: 20px;
+        color: #fff;
+        background: #0d6efd;
+        margin-right: 5px;
+        border-radius: 3px;
+        font-size: 12px;
+    }
+</style>
+
+<div class="item-entry mb-2">
+    <!-- Header row -->
+    <div class="row no-gutters align-items-center mb-2">
+        <div class="col">
+            <label class="mb-0">
+                <span class="number-block">@rowIndex</span> Item
+            </label>
+        </div>
+        <div class="col-auto">
+            <a href="javascript:void(0);" class="btn btn-sm btn-outline-danger btn-remove-item pointer-cursor" title="Remove Item">
+                <i class="fa fa-trash"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Item fields row -->
+    <div class="row item-row">
+        <div class="col-12 col-md-4">
+            <label>Item <span class="text-danger">*</span></label>
+            @*@Html.DropDownList("Items[@index].ItemId", (IEnumerable<SelectListItem>)ViewBag.Items, new { @class = "form-control ItemId" })*@
+            @Html.DropDownList("ContractItems[" + index + "].ItemId", (IEnumerable<SelectListItem>)ViewBag.Items, new { @class = "form-control ItemId" })
+            <span class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label>Rate <span class="text-danger">*</span></label>
+            <input type="text" class="form-control Rate" name="Items[@index].Rate" placeholder="Enter Rate" />
+            <span class="text-danger"></span>
+        </div>
+        <div class="col-12 col-md-4">
+            <label>Quantity <span class="text-danger">*</span></label>
+            <input type="text" class="form-control Qty" name="Items[@index].Qty" placeholder="Enter Quantity" />
+            <span class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on('click', '.btn-remove-item', function (e) {
+        e.preventDefault();
+
+        $(this).closest('.item-entry').remove();
+
+        $('.item-entry').each(function (i) {
+            $(this).find('.number-block').text(i + 1);
+        });
+    });
+
+    $(document).on('input', '.Qty', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    $(document).on('input', '.Rate', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+</script>

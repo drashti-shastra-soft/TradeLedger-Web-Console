@@ -1,0 +1,87 @@
+﻿@model TradeLedgerWebConsole.Domain.Item
+
+<div class="modal fade" id="modal-item" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (Model.Id > 0)
+                {
+                    <h5 class="modal-title fs-5" id="itemModalLabel">Edit Item</h5>
+                }
+                else
+                {
+                    <h5 class="modal-title fs-5" id="ItemModalLabel">Add Item</h5>
+                }
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                @Html.HiddenFor(m => m.Id)
+
+                @if (ViewBag.ShowCompany)
+                {
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label> Company </label>
+                            @Html.DropDownListFor(m => m.CompanyId, ViewBag.Companies as List<SelectListItem>, "Select Company", new { @class = "form-control" })
+                        </div>
+                    </div>
+                }
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <label>Code <span class="text-danger">*</span></label>
+                        @Html.TextBoxFor(m => m.Code, new { @class = "form-control", placeholder = "Enter Code" })
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label>Name <span class="text-danger">*</span> </label>
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter Item Name" })
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <label>Description</label>
+                        @Html.TextBoxFor(m => m.Description, new { @class = "form-control", placeholder = "Enter Description" })
+                    </div>
+
+                    <div class="col">
+                        <label>HSN Code <span class="text-danger">*</span></label>
+                        @Html.TextBoxFor(m => m.HSNCode, new { @class = "form-control", placeholder = "Enter HSN Code" })
+                        <span class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-6">
+                        <label>Unit <span class="text-danger">*</span></label>
+                        @Html.DropDownListFor(m => m.UnitId, ViewBag.unit as List<SelectListItem>, "Select Unit", new { @class = "form-control" })
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input" })
+                            <label class="form-check-label" for="isActiveCheck">Is Active?</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="javascript:void(0);" class="btn btn-primary btn-submit">Submit</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("NotificationType", (object)ViewBag.NotificationType)
+@Html.Hidden("NotificationMsg", (object)ViewBag.NotificationMsg)
+
+
+<script src="@Url.Content("~/custom-js/item/create.js")"></script>
